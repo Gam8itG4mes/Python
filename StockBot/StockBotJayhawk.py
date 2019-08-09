@@ -8,7 +8,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 
 
-TOKEN = 'NDI4NTk4MDI1MDU3ODYxNjMy.DZ1eCQ.eXdtFWhxTOjAkGCdx28_0PHpp6c'
+TOKEN = 
 
 BOT_PREFIX = ("?", "!")
 

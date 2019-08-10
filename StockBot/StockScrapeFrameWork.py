@@ -1,3 +1,9 @@
+
+# coding: utf-8
+
+# In[10]:
+
+
 # import libs
 import urllib.request
 from bs4 import BeautifulSoup
@@ -16,12 +22,62 @@ page = urllib.request.urlopen(quote_page)
 soup = BeautifulSoup(page, 'html.parser')
 
 #find name of stock
-name_box = soup.find('h1', class_ ='companyName__99a4824b')
+name_box = soup.find('h1', attrs = {'class': 'companyName__99a4824b'})
 #find current price of stock
-price_box = soup.find('span', class_ = 'priceText__1853e8a5')
-percent_up_down = soup.find()
+price_box = soup.find('span', attrs= {'class': 'priceText__1853e8a5'})
+#percent_up_down = soup.find()
 
-#name = name_box.text.strip()
-print(name_box.text)
+name = name_box.text.strip()
+#print(name_box.text)
+#name = name_box.text
+print(name)
 #price = price_box.text()
 print('$',price_box.text)
+
+
+# In[12]:
+
+
+import requests
+from bs4 import BeautifulSoup
+
+quote_page = 'https://www.bloomberg.com/quote/spx:ind'
+result = requests.get(quote_page)
+print(result.headers)
+
+
+# In[42]:
+
+
+# import libs
+import urllib.request
+from bs4 import BeautifulSoup
+import csv
+from datetime import datetime 
+
+#ask for the stock symbol
+symbol = input("Enter a stock symbol > ")
+symbol = symbol.capitalize()
+quote_page = ('https://www.reuters.com/finance/stocks/overview/%s' % symbol)
+
+#store the webpage in page variable
+page = urllib.request.urlopen(quote_page)
+
+#parse the HTML 
+soup = BeautifulSoup(page, 'html.parser')
+#print(soup)
+#find name of stock
+name_box = soup.find('div', {'id': 'sectionTitle'})
+#find current price of stock
+price_box = soup.find('br', attrs = {'class' : 'clear'})
+#print(price_box.find_next_sibling("span").get_text())
+price_box = price_box.find_next_sibling("span").get_text()
+#percent_up_down = soup.find()
+
+name = name_box.text.strip()
+#print(name_box.text)
+#name = name_box.text
+print(name)
+price = price_box.strip()
+print('$',price)
+

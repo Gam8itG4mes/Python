@@ -8,7 +8,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 
 
-TOKEN = 
+TOKEN = #insert discord token
 
 BOT_PREFIX = ("?", "!")
 
@@ -35,12 +35,14 @@ async def square(number):
 	sq_val = int(number) * int(number)
 	await client.send(str(number) + ' squared is ' + str(sq_val))
 '''
-"""
+
 @client.event
 async def on_ready():
-	await client.change_presence(game = Game(name='with Humans'))
+	game = discord.Game("with the humans")
+	await client.change_presence(discord.Status.online, activity = game)
+	#await client.change_presence(game = Game(name='with Humans'))
 	print('logged in as ' + client.user.name)
-"""
+
 
 @client.command()
 async def bitcoin():

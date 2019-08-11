@@ -1,9 +1,3 @@
-
-# coding: utf-8
-
-# In[10]:
-
-
 # import libs
 import urllib.request
 from bs4 import BeautifulSoup
@@ -12,72 +6,56 @@ from datetime import datetime
 
 #ask for the stock symbol
 symbol = input("Enter a stock symbol > ")
+#symbol = symbol.capitalize()
 
-quote_page = ('https://www.bloomberg.com/quote/%s:US' % symbol)
+if symbol == "djia" or symbol == "DJIA":
+    quote_page_dji = ('https://www.reuters.com/finance/markets/index/.DJI')
+    page_dji = urllib.request.urlopen(quote_page_dji)
+    soup = BeautifulSoup(page_dji, 'html.parser')
 
-#store the webpage in page variable
-page = urllib.request.urlopen(quote_page)
+    name_box_dji = soup.find('div', {'id': 'sectionTitle'})
+    price_box_dji = soup.find('div', {'class': 'dataHeader'})
+    #change_box_dji = soup.find('div', attrs={'class':'change-container'})
 
-#parse the HTML 
-soup = BeautifulSoup(page, 'html.parser')
+    name_dji = name_box_dji.text.strip()
+    print(name_dji)
+    price_dji = price_box_dji.text.strip()
+    print(price_dji)
 
-#find name of stock
-name_box = soup.find('h1', attrs = {'class': 'companyName__99a4824b'})
-#find current price of stock
-price_box = soup.find('span', attrs= {'class': 'priceText__1853e8a5'})
-#percent_up_down = soup.find()
+elif symbol.upper() == "SPX" or symbol.upper() == "S&P":
+    quote_page_spx = ('https://www.reuters.com/finance/markets/index/.SPX')
+    page_spx = urllib.request.urlopen(quote_page_spx)
+    soup = BeautifulSoup(page_spx, 'html.parser')
+   
+    name_box_spx = soup.find('div', {'id': 'sectionTitle'})
+    price_box_spx = soup.find('div', {'class': 'dataHeader'})
+    
+    name_spx = name_box_spx.text.strip()
+    print(name_spx)
+    price_spx = price_box_spx.text.strip()
+    print("$" + price_spx)
 
-name = name_box.text.strip()
-#print(name_box.text)
-#name = name_box.text
-print(name)
-#price = price_box.text()
-print('$',price_box.text)
+    
+else:
+    quote_page = ('https://www.reuters.com/finance/stocks/overview/%s' % symbol)
 
+    #store the webpage in page variable
+    page = urllib.request.urlopen(quote_page)
 
-# In[12]:
+    #parse the HTML 
+    soup = BeautifulSoup(page, 'html.parser')
+    #print(soup)
+    #find name of stock
+    name_box = soup.find('div', {'id': 'sectionTitle'})
+    #find current price of stock
+    price_box = soup.find('br', attrs = {'class' : 'clear'})
+    #print(price_box.find_next_sibling("span").get_text())
+    price_box = price_box.find_next_sibling("span").get_text()
+    #percent_up_down = soup.find()
 
-
-import requests
-from bs4 import BeautifulSoup
-
-quote_page = 'https://www.bloomberg.com/quote/spx:ind'
-result = requests.get(quote_page)
-print(result.headers)
-
-
-# In[42]:
-
-
-# import libs
-import urllib.request
-from bs4 import BeautifulSoup
-import csv
-from datetime import datetime 
-
-#ask for the stock symbol
-symbol = input("Enter a stock symbol > ")
-symbol = symbol.capitalize()
-quote_page = ('https://www.reuters.com/finance/stocks/overview/%s' % symbol)
-
-#store the webpage in page variable
-page = urllib.request.urlopen(quote_page)
-
-#parse the HTML 
-soup = BeautifulSoup(page, 'html.parser')
-#print(soup)
-#find name of stock
-name_box = soup.find('div', {'id': 'sectionTitle'})
-#find current price of stock
-price_box = soup.find('br', attrs = {'class' : 'clear'})
-#print(price_box.find_next_sibling("span").get_text())
-price_box = price_box.find_next_sibling("span").get_text()
-#percent_up_down = soup.find()
-
-name = name_box.text.strip()
-#print(name_box.text)
-#name = name_box.text
-print(name)
-price = price_box.strip()
-print('$',price)
-
+    name = name_box.text.strip()
+    #print(name_box.text)
+    #name = name_box.text
+    print(name)
+    price = price_box.strip()
+    print('$',price)
